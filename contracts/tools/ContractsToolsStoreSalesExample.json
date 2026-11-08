@@ -1,0 +1,53 @@
+{
+  "artifact_kind": "design_example_not_runtime_config",
+  "tool_id": "sales.store_daily",
+  "version": "1.0.0-draft",
+  "status": "draft",
+  "metric": {
+    "id": "net_sales",
+    "version": "example-1",
+    "definition": "gross_amount - cancel_amount",
+    "unit": "KRW",
+    "numeric_type": "decimal",
+    "business_owner_confirmed": false,
+    "cancellation_basis": "original_business_date_example"
+  },
+  "input_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["start_date", "end_date_exclusive", "group_by", "value_basis"],
+    "properties": {
+      "start_date": { "type": "string", "format": "date" },
+      "end_date_exclusive": { "type": "string", "format": "date" },
+      "store_ids": { "type": "array", "items": { "type": "string" }, "minItems": 1, "uniqueItems": true },
+      "group_by": { "enum": ["business_date", "month", "year", "store"] },
+      "value_basis": { "enum": ["closed_snapshot", "latest_corrected"] }
+    }
+  },
+  "semantics": {
+    "timezone": "Asia/Seoul",
+    "grain": ["business_date", "store_id", "currency"],
+    "supported_dimensions": ["business_date", "store_id"],
+    "unsupported_dimensions": ["product_category", "customer", "channel"],
+    "aggregation": "sum",
+    "zero_denominator": "undefined_with_reason"
+  },
+  "authorization": {
+    "identity_source": "verified_server_principal",
+    "scope_source": "authoritative_store_entitlements",
+    "out_of_scope": "reject",
+    "apply_to": ["search", "execution", "cache", "mart", "saved_result", "export"]
+  },
+  "execution": {
+    "source_adapter": "apic_approved_tool",
+    "source_execution_enabled": false,
+    "allow_arbitrary_sql": false,
+    "allow_primary_fallback": false,
+    "requires_budget_admission": true,
+    "requires_verified_cancellation": true,
+    "freshness_seconds": null,
+    "budget_policy_id": null
+  },
+  "result_metadata": ["metric_version", "dataset_version", "data_as_of", "complete_through", "coverage", "currency", "value_basis"],
+  "publication_blockers": ["business_definition", "source_mapping", "authorization_integration", "freshness_sla", "dba_budget", "cancellation_test", "reconciliation"]
+}

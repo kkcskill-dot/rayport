@@ -1,0 +1,20 @@
+[workspace]
+members = ["crates/rayport-domain", "crates/rayport-application", "crates/rayport-adapters", "crates/rayport-server"]
+resolver = "2"
+
+[workspace.package]
+version = "1.0.0"
+edition = "2021"
+publish = false
+
+[workspace.dependencies]
+axum = "0.8.9"
+tokio = { version = "1.54.1", features = ["macros", "rt-multi-thread", "net", "signal"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+chrono = { version = "0.4", features = ["serde"] }
+uuid = { version = "1", features = ["v4", "serde"] }
+sha2 = "0.10"
+rayport-domain = { path = "crates/rayport-domain" }
+rayport-application = { path = "crates/rayport-application" }
+rayport-adapters = { path = "crates/rayport-adapters" }

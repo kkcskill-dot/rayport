@@ -1,0 +1,39 @@
+[package]
+name = "rayport-server"
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+
+[lib]
+path = "src/CratesRayportServerSrcLib.rs"
+
+[[bin]]
+name = "rayport-server"
+path = "src/bootstrap/CratesRayportServerSrcBootstrapRayportServerMain.rs"
+
+[dependencies]
+axum.workspace = true
+tokio.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+chrono.workspace = true
+uuid.workspace = true
+sha2.workspace = true
+rayport-domain.workspace = true
+rayport-application.workspace = true
+rayport-adapters.workspace = true
+tower-http = { version = "0.6", features = ["fs", "limit", "set-header"] }
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls", "stream"] }
+subtle = "2"
+
+[dev-dependencies]
+tower = { version = "0.5", features = ["util"] }
+tempfile = "3"
+
+[[test]]
+name = "http_contract"
+path = "tests/CratesRayportServerTestsHttpContract.rs"
+
+[[test]]
+name = "http_hardening"
+path = "tests/CratesRayportServerTestsHttpHardening.rs"

@@ -1,0 +1,15 @@
+[package]
+name = "rayport-application"
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+
+[lib]
+path = "src/CratesRayportApplicationSrcLib.rs"
+
+[dependencies]
+rayport-domain.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+chrono.workspace = true
+uuid.workspace = true
